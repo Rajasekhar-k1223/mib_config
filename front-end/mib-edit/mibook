@@ -1,0 +1,46 @@
+server {
+
+        root /var/www/html/mibook;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name *.mibook.in;
+
+        location / {
+#                try_files $uri $uri/ =404;
+                root /var/www/html/mibook;
+                index index.html;
+                try_files $uri /index.html$is_args$args =404;
+        }
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/mibook.in/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/mibook.in/privkey.pem; # managed by Certbot
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+#    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+#    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+#    if ($host = www.mibook.in) {
+#        return 301 https://$host$request_uri;
+#    } # managed by Certbot
+
+
+#    if ($host = mibook.in) {
+#        return 301 https://$host$request_uri;
+#    } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+
+        server_name *.mibook.in;
+        return 301 https://$host$request_uri; # managed by Certbot
+
+
+
+
+}
